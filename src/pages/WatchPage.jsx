@@ -55,9 +55,9 @@ function WatchPage() {
       Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
     }, [episodes])
 
-    useEffect(() => {
-      console.log(select);
-    }, [select])
+    // useEffect(() => {
+    //   console.log(select);
+    // }, [select])
     
 
     // Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
@@ -107,26 +107,31 @@ function WatchPage() {
                     </MediaPlayer>)
               }  
             </div>
-
+            {/* bg-[#D9232E] */}
             <div className='border w-1/4 text-white h-full flex flex-col'>
-                <div className='w-full p-3 flex justify-between bg-[#D9232E]'>
+                <div className='w-full p-3 flex justify-between'> 
                     <span className='text-lg'>List of all episodes:</span>
                     <Select 
-                     defaultValue="dog" 
+                     defaultValue={'1-100'} 
                      variant='solid' 
                      sx={{minWidth: 100, 
                           minHeight: 10, 
                           border: 1, 
+                          color:'red',
                           borderColor: 'red',
                           backgroundColor: 'transparent'
                         }}
-                     onChange={(value) => {setSelect(value && value.target.value)}}
+                     onChange={(e,value) => {setSelect(value && value)}}
                     >
                       {/* {episodes && episodes.length} */}
                       {
                         options && Array.from({length:options}).map((_,index) => {
                             const realIndex = index+1
-                            const value = realIndex==1?'1-100':`${realIndex*100}-${realIndex*100+100}`
+                            if(realIndex == options){
+                                const value = `${(realIndex-1)*100+1}-${episodes.length}`
+                                return (<Option key={value} value={value}>{value}</Option>)
+                            }
+                            const value = realIndex==1?'1-100':`${(realIndex-1)*100+1}-${realIndex*100}`
                             // console.log(value);
                             return (<Option key={value} value={value}>{value}</Option>)
                         })
@@ -135,18 +140,20 @@ function WatchPage() {
                 </div>
                 <div className='grid grid-cols-5 gap-3 py-6 pr-6 pl-8 overflow-y-scroll hide-scrollbar flex-1'>
                     {
-                        episodes && episodes.map((episode) => {
+                        episodes && episodes.map((episode, index) => {
                           const value = select
-                          console.log(value);
-                          
-                          return (
-                            <div
-                            key={episode.episodeId} 
-                            className='bg-red-600 w-11 h-11 flex justify-center items-center'
-                            onClick={() => {getEpisodeServer(episode.episodeId)}}
-                            >
-                            {episode.number}</div>
-                        )})
+                          const seletEnds = [...value.split('-')]
+                          if(index >= seletEnds[0]-1 && index <= seletEnds[1]-1){
+                            return (
+                              <div
+                              key={episode.episodeId} 
+                              className='bg-red-600 w-11 h-11 flex justify-center items-center'
+                              onClick={() => {getEpisodeServer(episode.episodeId)}}
+                              >
+                              {episode.number}</div>
+                            )
+                          }
+                        })
                     }
                 </div>
             </div>
