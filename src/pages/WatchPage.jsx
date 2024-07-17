@@ -29,6 +29,8 @@ function WatchPage() {
             .then((res) => {
               setEpisodes(res.data.episodes)
               optionHandler(res.data.episodes)
+              // console.log(res.data.episodes.length>100?'1-100':`1-${res.data.episodes.length}`)
+              setSelect(res.data.episodes.length>100?'1-100':`1-${res.data.episodes.length}`)
             })
     }
 
@@ -48,18 +50,12 @@ function WatchPage() {
 
     useEffect(() => {
         episodeHandler()
-        setSelect('1-100')
     }, [])
 
     useEffect(() => {
       Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
     }, [episodes])
-
-    // useEffect(() => {
-    //   console.log(select);
-    // }, [select])
     
-
     // Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
     // options && console.log(Array.from({length:options}).map((_,index) => {
     //   // console.log('hee');
@@ -71,8 +67,9 @@ function WatchPage() {
     // episodes && console.log(episodes);
     // episodeInfo && console.log(episodeInfo);
     // streamingLink && console.log(streamingLink.sources[0]);  
+    // console.log(options && (options>1?'1-100':`1-${episodes.length}`))
 
-  return (
+  return select && (
     <>
         <Navbar/>
         <div className='flex border h-[90vh]'>
@@ -112,7 +109,7 @@ function WatchPage() {
                 <div className='w-full p-3 flex justify-between'> 
                     <span className='text-lg'>List of all episodes:</span>
                     <Select 
-                     defaultValue={'1-100'} 
+                     defaultValue={select} 
                      variant='solid' 
                      sx={{minWidth: 100, 
                           minHeight: 10, 
@@ -132,7 +129,6 @@ function WatchPage() {
                                 return (<Option key={value} value={value}>{value}</Option>)
                             }
                             const value = realIndex==1?'1-100':`${(realIndex-1)*100+1}-${realIndex*100}`
-                            // console.log(value);
                             return (<Option key={value} value={value}>{value}</Option>)
                         })
                       }
@@ -141,6 +137,7 @@ function WatchPage() {
                 <div className='grid grid-cols-5 gap-3 py-6 pr-6 pl-8 overflow-y-scroll hide-scrollbar flex-1'>
                     {
                         episodes && episodes.map((episode, index) => {
+                          if(!select) return
                           const value = select
                           const seletEnds = [...value.split('-')]
                           if(index >= seletEnds[0]-1 && index <= seletEnds[1]-1){
