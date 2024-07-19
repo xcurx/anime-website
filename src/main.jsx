@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import {AnimePage, WatchPage} from './pages/pageIndex.js'
+import {AnimePage, ListPage, SearchPage, WatchPage} from './pages/pageIndex.js'
 
 const router = createBrowserRouter([
   {
@@ -17,6 +17,14 @@ const router = createBrowserRouter([
   {
     path:'/:animeId/watch',
     element: <WatchPage/>
+  },
+  {
+    path:'/home/:list',
+    element: <ListPage/>
+  },
+  {
+    path:'/search',
+    element: <SearchPage/>
   }
 ])
 

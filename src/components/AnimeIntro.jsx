@@ -8,7 +8,7 @@ function AnimeIntro({aniInfo}) {
     return aniInfo && (
         <div className='text-white px-4 py-12 border flex'>
             <div className='flex justify-center items-center border w-1/3 h-full'>
-                <img src={aniInfo.anime.info.poster} alt="" />
+                <img className='aspect-[3/4] h-[400px]' src={aniInfo.anime.info.poster} alt="" />
             </div>
     
             <div className='flex flex-col justify-center items-start border w-2/3 py-4 px-12'>
@@ -26,7 +26,7 @@ function AnimeIntro({aniInfo}) {
                   <div onClick={() => navigate(`watch`)} className='bg-[#D9232E] py-3 px-4 rounded-3xl mr-3 cursor-pointer'>Watch Now</div>
                   <div className='bg-[#D9232E] py-3 px-4 rounded-3xl mr-3 cursor-pointer'>Add to List</div>
                 </div>
-                <div className='max-h-[40%]'>
+                <div className=''>
                   <p className={`w-full ${reveal? null:'truncate-3-lines'}`}>{aniInfo.anime.info.description}</p>
                   <span onClick={() => setReveal(!reveal)} className='font-bold opacity-70 cursor-pointer'>
                     {reveal?'-Less':'+More'}</span>

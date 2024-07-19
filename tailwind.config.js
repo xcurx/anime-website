@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize:{
+        ss:['10px','12px']
+      },
+      screens:{
+        'sm':'500px'
+      },
       truncate: {
         lines: {
           2: {
