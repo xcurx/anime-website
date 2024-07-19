@@ -10,15 +10,16 @@ function Navbar() {
   const focus = useRef()
 
   async function searchHandler(query){
-      if(query.split('') === null || query === ''){
+      if(query.length <= 1){
         setSearchResult(null)
+        return
       }
       axios.get(`/anime/search/suggest?q=${query}`)
           .then((res) => {setSearchResult(res.data.suggestions)})
   }
 
   useEffect(() => {
-    searchHandler(input)
+      searchHandler(input)
   },[input])
 
   return (
@@ -30,10 +31,13 @@ function Navbar() {
             className='border-[red] border rounded bg-transparent px-2 text-[red] h-full w-full outline-none' 
             placeholder='Search'
             onChange={(e) => setInput(e.target.value)}
-            // onFocus={() => focus.current.style.visibility = 'visible'}
-            // onBlur={() => focus.current.style.visibility = 'hidden'}
+            onFocus={() => focus.current.style.visibility = 'visible'}
+            onBlur={() => focus.current.style.visibility = 'hidden'}
             />
-            <div ref={focus} className='absolute top-[100%] left-0 w-screen xl:w-full z-10 text-white bg-[#3d3a3a] cursor-pointer'>
+            <div ref={focus} 
+             className='absolute top-[100%] left-0 w-screen xl:w-full z-10 text-white bg-[#3d3a3a] cursor-pointer'
+             onMouseDown={(e) => e.preventDefault()}
+             >
               {
                 searchResult && searchResult.map((anime) => (
                   <div 
