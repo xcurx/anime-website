@@ -8,23 +8,36 @@ function Navbar() {
   const [searchResult, setSearchResult] = useState(null)
   const navigate = useNavigate()
   const focus = useRef()
+  const CancelToken = axios.CancelToken
+  let cancel = () => {}
 
-  async function searchHandler(query){
-      if(query.length <= 1){
+  async function searchHandler(){
+      if(input.length <= 0){
+        cancel('')
         setSearchResult(null)
         return
       }
-      axios.get(`/anime/search/suggest?q=${query}`)
-          .then((res) => {setSearchResult(res.data.suggestions)})
+      axios.get(`/anime/search/suggest?q=${input}`,
+        {cancelToken: new CancelToken((c) => cancel = c)}
+      ).then((res) => {setSearchResult(res.data.suggestions)})
+       .catch((thrown) => {
+          if(axios.isCancel(thrown)){
+            console.log('Cancelled',thrown);
+          }else{
+            console.log(thrown);
+          }
+       })
   }
 
   useEffect(() => {
-      searchHandler(input)
+    const session = setTimeout(searchHandler(),300)
+
+    return () => {clearTimeout(session);}
   },[input])
 
   return (
-    <div className='sticky top-0 z-10 w-screen bg-[#353333] p-2 flex justify-between xl:text-2xl lg:text-xl text-xs'>
-      <span className='text-red-500'>Logo</span>
+    <div className='sticky top-0 z-10 w-full bg-[#353333] p-2 flex justify-between xl:text-2xl lg:text-xl text-xs'>
+      <Link to={'/'}><span className='text-red-500'>Logo</span></Link>
       <div className='flex md:gap-8 gap-3'>
           <div className='xl:relative xl:w-96'>
             <input type="text"
@@ -41,6 +54,7 @@ function Navbar() {
               {
                 searchResult && searchResult.map((anime) => (
                   <div 
+                   key={anime.id}
                    className='w-full p-1 flex border-b border-dashed border-[#766868]'
                    onClick={() => navigate(anime.id)}
                   >
@@ -61,7 +75,7 @@ function Navbar() {
                   </div>
                 ))
               }
-              {searchResult && (<Link to={`/search?query=${input}`} className='bg-[#d63939] w-full flex justify-center text-lg '>View all results</Link>)}
+              {searchResult && (<Link to={`/search?query=${input}&page=1`} className='bg-[#d63939] w-full flex justify-center text-lg '>View all results</Link>)}
             </div>
           </div>
           <button className='text-red-500 border-[red] border rounded px-4 py-1'>Login</button>

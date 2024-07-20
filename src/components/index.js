@@ -6,6 +6,8 @@ import List from './List'
 import MiniCarousel from './MiniCarousel'
 import AnimePage from '../pages/AnimePage'
 import AnimeIntro from './AnimeIntro'
+import Card from './Card'
+import PageChange from './PageChange'
 
 export {
     Navbar,
@@ -16,4 +18,6 @@ export {
     MiniCarousel,
     AnimePage,
     AnimeIntro,
+    Card,
+    PageChange,
 }

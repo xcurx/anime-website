@@ -61,7 +61,7 @@ function List({
             </div>
         ))
       }
-      <Link to={`home/${listName}`} className='text-white mt-3'>View more {'>'}</Link>
+      <Link to={`home/${listName}?page=1`} className='text-white mt-3'>View more {'>'}</Link>
     </div>
   )
 }
