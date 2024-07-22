@@ -62,24 +62,6 @@ function PageChange({totalPages, currentPage, totalButtons=3}) {
                             </div>
                         ))
                     }
-
-                {/* <div onClick={(e) => navigate(pathSpecifier(e.target.innerHTML))} 
-                 className={`w-10 h-10 flex justify-center items-center rounded-[50%] ${pageDetector(1)==currentPage?'bg-red-500':'bg-gray-500'} ${pageDetector(1)?'visible':'hidden'} cursor-pointer`}
-                >
-                    {pageDetector(1)}
-                </div>
-
-                <div onClick={(e) => navigate(pathSpecifier(e.target.innerHTML))} 
-                 className={`w-10 h-10 flex justify-center items-center rounded-[50%] ${pageDetector(2)==currentPage?'bg-red-500':'bg-gray-500'} ${pageDetector(2)?'visible':'hidden'} cursor-pointer`}
-                >
-                    {pageDetector(2)}
-                </div>
-
-                <div onClick={(e) => navigate(pathSpecifier(e.target.innerHTML))} 
-                 className={`w-10 h-10 flex justify-center items-center rounded-[50%] ${pageDetector(3)==currentPage?'bg-red-500':'bg-gray-500 '} ${pageDetector(3)?'visible':'hidden'} cursor-pointer`}
-                >
-                    {pageDetector(3)}
-                </div> */}
                 </>
             )
         }
