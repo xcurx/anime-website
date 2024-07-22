@@ -14,11 +14,11 @@ function AnimeIntro({aniInfo}) {
             <div className='flex flex-col justify-center items-start border w-2/3 py-4 px-12'>
                 <div></div>
                 <div className='xl:text-5xl'>{aniInfo.anime.info.name}</div>
-                <div className='text-black mt-4'>
-                  <span className='bg-[white] rounded-tr-none rounded-br-none rounded text-[12px] font-bold px-2 py-0.5 mr-[1px]'>{aniInfo.anime.info.stats.rating}</span>
-                  <span className='bg-[#ffdd95] text-[12px] font-bold px-2 py-0.5 mr-[1px]'>{aniInfo.anime.info.stats.quality}</span>
-                  <span className='bg-[#b0e3af] text-[12px] font-bold px-2 py-0.5 mr-[1px]'>{aniInfo.anime.info.stats.episodes.sub}</span>
-                  <span className='bg-[#e3b5cd] rounded-tl-none rounded-bl-none rounded text-[12px] font-bold px-2 py-0.5 mr-[1px]'>{aniInfo.anime.info.stats.episodes.dub}</span>
+                <div className='text-white mt-4'>
+                  <span className='rounded border-2 text-[12px] font-bold px-2 py-0.5 mr-[4px]'>{aniInfo.anime.info.stats.rating}</span>
+                  <span className='rounded border-2 text-[12px] font-bold px-2 py-0.5 mr-[4px] bg-[#BD5D05] border-[#BD5D05]'>{aniInfo.anime.info.stats.quality}</span>
+                  <span className='rounded border-2 text-[12px] font-bold px-2 py-0.5 mr-[4px]'>SUB {aniInfo.anime.info.stats.episodes.sub}</span>
+                  <span className='rounded border-2 text-[12px] font-bold px-2 py-0.5 mr-[4px]'>DUB {aniInfo.anime.info.stats.episodes.dub}</span>
                   <span className='text-slate-300 text-[12px] px-2 py-0.5 mr-[1px]'>•{' '}{aniInfo.anime.info.stats.type}</span>
                   <span className='text-slate-300 text-[12px] px-2 py-0.5 mr-[1px]'>•{' '}{aniInfo.anime.info.stats.duration}</span>
                 </div>

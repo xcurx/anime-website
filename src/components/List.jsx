@@ -41,18 +41,18 @@ function List({
         list && list.map((anime, index) => index>4? null:(
             <div key={anime.name} className={`w-full`} onClick={() => navigate(`${anime.id}`)}>
                 <div className='flex py-3 px-2'>
-                    <div className='w-1/6 flex-shrink-0 '>
+                    <div className='md:w-1/6 flex-shrink-0 md:h-auto h-[76px]'>
                         <img src={anime.poster} alt="" 
-                        className='w-full h-full rounded-lg aspect-[2/3]'/>
+                        className='md:w-full h-full rounded-lg aspect-[3/4]'/>
                     </div>
                     <div className='p-3 w-5/6 flex flex-col flex-grow-1 justify-center'>
                         <h3 className='text-white truncate xl:text-xl lg:text-lg text-xs hover:text-[#D9232E]'>{anime.name}</h3>
                         <div className='flex items-center'>
-                            <span className='bg-[#b0e3af] rounded-tr-none rounded-br-none rounded text-[12px] font-bold px-2 py-0.5 mr-[1px]'>
-                              {totalEpisodes[index]? totalEpisodes[index].sub:''}</span>
-                            <span className={`bg-[#e3b5cd] rounded-tl-none rounded-bl-none rounded text-[12px] font-bold px-2 py-0.5 ml-[1px] 
+                            <span className='rounded border-2 md:text-ss text-[7px] font-bold md:px-2 px-1 py-0.5 mr-[4px] text-white'>
+                              Sub {totalEpisodes[index]? totalEpisodes[index].sub:''}</span>
+                            <span className={`rounded border-2 md:text-ss text-[7px] font-bold md:px-2 px-1 py-0.5 mr-[4px] text-white
                               ${totalEpisodes[index]? totalEpisodes[index].dub?null:'hidden':null}`}>
-                              {totalEpisodes[index]? totalEpisodes[index].dub:''}</span>
+                              Dub {totalEpisodes[index]? totalEpisodes[index].dub:''}</span>
                             <span className='text-gray-300 ml-2'>TV</span>
                         </div>
                     </div>

@@ -2,12 +2,18 @@ import React, { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import LoadingBar from 'react-top-loading-bar'
+import { useDispatch, useSelector } from 'react-redux'
+import { handleProgress } from '../store/loaderSlice'
 
 function Navbar() {
   const [input, setInput] = useState('')
   const [searchResult, setSearchResult] = useState(null)
   const navigate = useNavigate()
   const focus = useRef()
+  const progress = useSelector((state) => state.loader.progress)
+  const dispatch = useDispatch()
+
   const CancelToken = axios.CancelToken
   let cancel = () => {}
 
@@ -36,7 +42,17 @@ function Navbar() {
   },[input])
 
   return (
-    <div className='sticky top-0 z-10 w-full bg-[#353333] p-2 flex justify-between xl:text-2xl lg:text-xl text-xs'>
+    <div 
+     className='sticky top-0 z-10 w-full bg-[#353333] p-2 flex justify-between xl:text-2xl lg:text-xl text-xs'
+     onScroll={(e) => console.log('ds')}
+    >
+
+      <LoadingBar
+        color='#f11946'
+        progress={progress}
+        onLoaderFinished={() => dispatch(handleProgress({progress:0}))}
+      />
+
       <Link to={'/'}><span className='text-red-500'>Logo</span></Link>
       <div className='flex md:gap-8 gap-3'>
           <div className='xl:relative xl:w-96'>

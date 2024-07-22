@@ -3,19 +3,24 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AnimeIntro from '../components/AnimeIntro'
 import {Navbar} from '../components'
+import { useDispatch } from 'react-redux'
+import { handleProgress } from '../store/loaderSlice'
 
 function AnimePage() {
     const [aniInfo, setAniInfo] = useState(null)
     const {animeId} = useParams()
+    const dispatch = useDispatch()
 
     async function animeInfo(){
         axios.get(`anime/info?id=${animeId}`)
             .then((res) => setAniInfo(res.data))
+            .then(dispatch(handleProgress({progress:100})))
     }
 
-    // aniInfo && console.log(aniInfo);
+    // aniInfo && console.log(aniInfo.anime);
 
     useEffect(() => {
+      dispatch(handleProgress({progress:40}))
       animeInfo()
     }, [])
     
