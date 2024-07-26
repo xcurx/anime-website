@@ -5,7 +5,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start":"concurrently \"npm --workspace frontend run dev\" \"npm --workspace apiServer start\""
   },
   "devDependencies": {
     "prettier": "^3.2.5",
