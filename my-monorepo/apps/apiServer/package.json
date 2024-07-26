@@ -38,7 +38,6 @@
     "@types/http-errors": "^2.0.4",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.5",
-    "husky": "^8.0.3",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "vitest": "^1.2.1"
