@@ -6,8 +6,18 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage:{
+        'radial-black-transparent': 'radial-gradient(circle, rgba(0,0,0,0.2778361344537815) 0%, rgba(1,1,15,1) 42%)',
+      },
+      backgroundColor:{
+        'radial': 'rgb(0,0,0)'
+      },
+      fontFamily:{
+        system:'system-ui, -apple-system, BlinkMacSystemFont'
+      },
       fontSize:{
-        ss:['10px','12px']
+        ss:['10px','12px'],
+        sz:['8px','10px']
       },
       screens:{
         'sm':'500px'
@@ -30,6 +40,11 @@ export default {
           },
           // Add more line clamps as needed
         },
+      },
+      scrollbar: {
+        width: '2px',
+        thumb: '#303030',
+        track: '#282828',
       },
     },
   },
@@ -55,6 +70,7 @@ export default {
 
       addUtilities(newUtilities, ['responsive', 'hover']);
     },
+    require('tailwind-scrollbar'),
   ],
 }
 

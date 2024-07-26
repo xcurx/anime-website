@@ -36,7 +36,7 @@ function List({
 
   return (
     <div className={`w-full cursor-default`}>
-      <h1 className='text-[#D9232E] xl:text-3xl lg:text-2xl text-xl p-2 font-bold'>{label}</h1>
+      <h1 className='text-[#8800ff] xl:text-3xl lg:text-2xl text-xl p-2 font-bold'>{label}</h1>
       {
         list && list.map((anime, index) => index>4? null:(
             <div key={anime.name} className={`w-full`} onClick={() => navigate(`${anime.id}`)}>
@@ -46,7 +46,7 @@ function List({
                         className='md:w-full h-full rounded-lg aspect-[3/4]'/>
                     </div>
                     <div className='p-3 w-5/6 flex flex-col flex-grow-1 justify-center'>
-                        <h3 className='text-white truncate xl:text-xl lg:text-lg text-xs hover:text-[#D9232E]'>{anime.name}</h3>
+                        <h3 className='text-white truncate xl:text-xl lg:text-lg text-xs hover:text-[#8800ff]'>{anime.name}</h3>
                         <div className='flex items-center'>
                             <span className='rounded border-2 md:text-ss text-[7px] font-bold md:px-2 px-1 py-0.5 mr-[4px] text-white'>
                               Sub {totalEpisodes[index]? totalEpisodes[index].sub:''}</span>

@@ -38,7 +38,7 @@ function MiniCarousel({info}) {
 
   return (
     <div className='relative'>
-         <h1 className='text-[#D9232E] xl:text-3xl text-2xl font-bold p-2'>Trending</h1>
+         <h1 className='text-[#8800ff] xl:text-3xl text-2xl font-bold p-2'>Trending</h1>
          <div className='relative w-full overflow-hidden rounded-lg shadow-lg'>
             <div className='carousel-inner flex duration-[0.5s] ease'>
               {
@@ -46,15 +46,15 @@ function MiniCarousel({info}) {
                   <div onClick={() => navigate(`${anime.id}`)} key={anime.name} className='carousel-item flex-none lg:w-1/6 md:w-1/4 w-1/3 md:p-2 p-1'>
                     <img src={anime.poster} alt={anime.name} className={`w-full aspect-[2/3]`}/>
                     <div className='text-white w-full overflow-hidden whitespace-nowrap text-ellipsis xl:text-xl lg:text-lg text-xs'>
-                      <span className='text-[#D9232E] font-bold'>{anime.rank.toString().padStart(2,'0')} </span>
+                      <span className='text-[#8800ff] font-bold'>{anime.rank.toString().padStart(2,'0')} </span>
                       {anime.name}</div>
                   </div>
                 ))
               }
             </div>
          </div>
-         <button onClick={() => {setCurrentSlide(currentSlide-1)}} className='absolute left-0 p-1 top-[50%] bg-red-700'>{`<`}</button>
-         <button onClick={() => {setCurrentSlide(currentSlide+1)}} className='absolute right-0 p-1 top-[50%] bg-red-700'>{`>`}</button>
+         <button onClick={() => {setCurrentSlide(currentSlide-1)}} className='absolute left-0 p-1 top-[50%] bg-[#8800ff]'>{`<`}</button>
+         <button onClick={() => {setCurrentSlide(currentSlide+1)}} className='absolute right-0 p-1 top-[50%] bg-[#8800ff]'>{`>`}</button>
     </div>
   )
 }

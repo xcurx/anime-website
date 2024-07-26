@@ -72,8 +72,8 @@ function WatchPage() {
   return select && (
     <>
         <Navbar/>
-        <div className='flex border h-[90vh]'>
-            <div className='w-3/4 p-7 border'>
+        <div className='lg:flex lg:h-[45vw]'>
+            <div className='lg:w-3/4 w-full p-7'>
               {
                 streamingLink && (<MediaPlayer 
                       src={streamingLink && streamingLink.sources[0].url}
@@ -105,18 +105,19 @@ function WatchPage() {
               }  
             </div>
             {/* bg-[#D9232E] */}
-            <div className='border w-1/4 text-white h-full flex flex-col'>
+            <div className='lg:w-1/4 w-full bg-[#282828] text-white lg:h-full flex flex-col'>
                 <div className='w-full p-3 flex justify-between'> 
-                    <span className='text-lg'>List of all episodes:</span>
+                    <span className='xl:text-lg text-lg lg:text-sm p-2'>List of all episodes:</span>
                     <Select 
                      defaultValue={select} 
-                     variant='solid' 
-                     sx={{minWidth: 100, 
-                          minHeight: 10, 
+                     variant='outline' 
+                     sx={{minWidth: 10, 
+                          minHeight: 5, 
                           border: 1, 
-                          color:'red',
-                          borderColor: 'red',
-                          backgroundColor: 'transparent'
+                          color:'#8415e5',
+                          borderColor: '#8415e5',
+                          backgroundColor: 'transparent',
+                          fontSize: `${innerWidth>=1024&&innerWidth<=1280?'10px':'16px'}`
                         }}
                      onChange={(e,value) => {setSelect(value && value)}}
                     >
@@ -129,12 +130,12 @@ function WatchPage() {
                                 return (<Option key={value} value={value}>{value}</Option>)
                             }
                             const value = realIndex==1?'1-100':`${(realIndex-1)*100+1}-${realIndex*100}`
-                            return (<Option key={value} value={value}>{value}</Option>)
+                            return (<Option className='scrollbar-thin' key={value} value={value} sx={{backgroundColor:'#363333', color:'#8415e5'}}>{value}</Option>)
                         })
                       }
                     </Select>
                 </div>
-                <div className='grid grid-cols-5 gap-3 py-6 pr-6 pl-8 overflow-y-scroll hide-scrollbar flex-1'>
+                <div className='grid lg:grid-cols-5 md:grid-cols-12 sm:grid-cols-10 grid-cols-5 gap-3 p-6 scrollbar-thin overflow-y-scroll flex-1'>
                     {
                         episodes && episodes.map((episode, index) => {
                           if(!select) return
@@ -144,7 +145,7 @@ function WatchPage() {
                             return (
                               <div
                               key={episode.episodeId} 
-                              className='bg-red-600 w-11 h-11 flex justify-center items-center'
+                              className='bg-[#8415e5] rounded self-center justify-self-center w-11 h-11 lg:w-9 lg:h-9 xl:w-11 xl:h-11 flex justify-center items-center'
                               onClick={() => {getEpisodeServer(episode.episodeId)}}
                               >
                               {episode.number}</div>

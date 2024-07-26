@@ -22,19 +22,20 @@ function SearchPage() {
     setLoading(true)
     axios.get(`/anime/search?q=${searchQuery}&page=${pageNo}`)
         .then((res) => setSearchResult(res.data))
+        .then(() => 100/res.data.animes.length)
   }
 
   useEffect(() => {
-    dispatch(handleProgress({progress:0}))
     searchHandler()
     setLoading(false)
   },[pageNo])
 
   return loading? (<div className='text-white text-9xl'>loading</div>): searchResult&&(
     <div className=''
-    onLoad={() => dispatch(handleProgress({progress:100}))}>
+    // onLoad={() => dispatch(handleProgress({progress:100}))}
+    >
         <Navbar/>
-        <div className='text-[#D9232E] text-3xl px-5 pt-3'>
+        <div className='text-[#8800ff] text-2xl lg:text-3xl px-5 pt-3'>
           {`Search results for keyword: ${searchQuery}`}
         </div>
         <div className='w-full grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 p-3'>

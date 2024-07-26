@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useId} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
@@ -40,12 +40,12 @@ function PageChange({totalPages, currentPage, totalButtons=3}) {
   return (
     <div className='text-white flex gap-2 p-1 mb-1'>
         <div onClick={() => navigate(pathSpecifier(1))} 
-         className={`${currentPage==1?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-gray-500 cursor-pointer`}
+         className={`${currentPage==1?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-[#393636] cursor-pointer`}
         >
             {'<<'}
         </div>
         <div onClick={() => navigate(pathSpecifier(currentPage-1))} 
-         className={`${currentPage==1?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-gray-500 cursor-pointer`}
+         className={`${currentPage==1?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-[#393636] cursor-pointer`}
         >
             {'<'}
         </div>
@@ -54,8 +54,8 @@ function PageChange({totalPages, currentPage, totalButtons=3}) {
                 <>
                     {
                         Array.from({length:totalButtons}).fill(0).map((_,index) => (
-                            <div contentEditable="false" tabIndex={-1} onClick={(e) => navigate(pathSpecifier(e.target.innerHTML))} 
-                             className={`w-10 h-10 flex justify-center items-center rounded-[50%] ${pageDetector(index+1)==currentPage?'bg-red-500':'bg-gray-500'} ${pageDetector(index+1)?'visible':'hidden'} cursor-pointer`}
+                            <div key={useId()} tabIndex={-1} onClick={(e) => navigate(pathSpecifier(e.target.innerHTML))} 
+                             className={`w-10 h-10 flex justify-center items-center rounded-[50%] ${pageDetector(index+1)==currentPage?'bg-[#8800ff]':'bg-[#393636]'} ${pageDetector(index+1)?'visible':'hidden'} cursor-pointer`}
                              onFocus={(e) => e.target.blur()}
                             >
                                 {pageDetector(index+1)}
@@ -65,8 +65,8 @@ function PageChange({totalPages, currentPage, totalButtons=3}) {
                 </>
             )
         }
-        <div onClick={() => navigate(pathSpecifier(currentPage+1))} className={`${currentPage==totalPages?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-gray-500 cursor-pointer`}>{'>'}</div>
-        <div onClick={() => navigate(pathSpecifier(totalPages))} className={`${currentPage==totalPages?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-gray-500 cursor-pointer`}>{'>>'}</div>
+        <div onClick={() => navigate(pathSpecifier(currentPage+1))} className={`${currentPage==totalPages?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-[#393636] cursor-pointer`}>{'>'}</div>
+        <div onClick={() => navigate(pathSpecifier(totalPages))} className={`${currentPage==totalPages?'hidden':'visible'} w-10 h-10 flex justify-center items-center rounded-[50%] bg-[#393636] cursor-pointer`}>{'>>'}</div>
     </div>
   )
 }

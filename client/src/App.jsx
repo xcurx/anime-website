@@ -7,12 +7,15 @@ import { handleProgress } from './store/loaderSlice'
 function App() {
     const [home, setHome] = useState({})
     const dispatch = useDispatch()
+    const [loading, setLoading] = useState(true)
 
     function apiHandler(){
+      setLoading(true)
       axios.get('/anime/home')
           .then((res) => {
             setHome(res.data)
           })
+          .then(() => setLoading(false))
         }
     // console.log(home); 
         
@@ -21,7 +24,7 @@ function App() {
       apiHandler()
     }, [])
     
-  return home && (
+  return loading? (<div className='text-6xl'>Loading</div>) : home && (
     <div
      onLoad={() => dispatch(handleProgress({progress:100}))} 
     >

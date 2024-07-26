@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import {AnimePage, ListPage, SearchPage, WatchPage} from './pages/pageIndex.js'
+import {AnimePage, GenrePage, ListPage, SearchPage, WatchPage} from './pages/pageIndex.js'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
   {
     path:'/search',
     element: <SearchPage/>
+  },
+  {
+    path:'/genre/:genre',
+    element: <GenrePage/>
   }
 ])
 

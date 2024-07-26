@@ -22,7 +22,7 @@ function AnimePage() {
     useEffect(() => {
       dispatch(handleProgress({progress:40}))
       animeInfo()
-    }, [])
+    }, [animeId])
     
   return aniInfo && (
     <>

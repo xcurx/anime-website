@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import LoadingBar from 'react-top-loading-bar'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
+import pnLogo from '../assets/pnLogo.png'
 
 function Navbar() {
   const [input, setInput] = useState('')
@@ -38,26 +39,26 @@ function Navbar() {
   useEffect(() => {
     const session = setTimeout(searchHandler(),300)
 
-    return () => {clearTimeout(session);}
+    return () => {clearTimeout(session)}
   },[input])
 
   return (
     <div 
-     className='sticky top-0 z-10 w-full bg-[#353333] p-2 flex justify-between xl:text-2xl lg:text-xl text-xs'
-     onScroll={(e) => console.log('ds')}
+     className='sticky top-0 z-10 w-full bg-[black] p-2 flex justify-between xl:text-2xl lg:text-xl text-xs'
     >
 
       <LoadingBar
-        color='#f11946'
+        color='#8800ff'
         progress={progress}
         onLoaderFinished={() => dispatch(handleProgress({progress:0}))}
       />
 
-      <Link to={'/'}><span className='text-red-500'>Logo</span></Link>
+      <Link to={'/'} className='h-full'><img className='w-[150px]' src={pnLogo} alt="" /></Link>
+
       <div className='flex md:gap-8 gap-3'>
           <div className='xl:relative xl:w-96'>
             <input type="text"
-            className='border-[red] border rounded bg-transparent px-2 text-[red] h-full w-full outline-none' 
+            className='border-[#8800ff] border rounded bg-transparent px-2 text-[#8800ff] h-full w-full outline-none' 
             placeholder='Search'
             onChange={(e) => setInput(e.target.value)}
             onFocus={() => focus.current.style.visibility = 'visible'}
@@ -72,7 +73,7 @@ function Navbar() {
                   <div 
                    key={anime.id}
                    className='w-full p-1 flex border-b border-dashed border-[#766868]'
-                   onClick={() => navigate(anime.id)}
+                   onClick={() => navigate(`/${anime.id}`)}
                   >
                       <div className='w-1/5 md:w-1/12 xl:w-1/5 p-2'>
                         <img src={anime.poster} className='w-full aspect-[3/4]' alt="" />
@@ -91,10 +92,10 @@ function Navbar() {
                   </div>
                 ))
               }
-              {searchResult && (<Link to={`/search?query=${input}&page=1`} className='bg-[#d63939] w-full flex justify-center text-lg '>View all results</Link>)}
+              {searchResult && (<Link to={`/search?query=${input}&page=1`} className='bg-[#8800ff] w-full flex justify-center text-lg '>View all results</Link>)}
             </div>
           </div>
-          <button className='text-red-500 border-[red] border rounded px-4 py-1'>Login</button>
+          <button className='text-[#8800ff] border-[#8800ff] border rounded px-4 py-1'>Login</button>
       </div>
     </div>
   )
