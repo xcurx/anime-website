@@ -38,7 +38,7 @@ function WatchPage() {
         axios.get(`/anime/servers?episodeId=${episodeId}`)
             .then((res) => setEpisodeInfo(res.data))
             .then(() => {
-                axios.get(`/anime/episode-srcs?id=${episodeId}&server=vidstreaming&category=sub`)
+                axios.get(`/anime/episode-srcs?id=${episodeId}&server=vidstream&category=sub`)
                     .then((res) => setStreamingLink(res.data))
             })
     }
