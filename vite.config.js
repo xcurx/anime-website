@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/anime':{
-        target:'https://aniwatch-api-woad-five.vercel.app',
+        target:'https://cors-anywhere-d6p02hn89-sujals-projects-fcd11243.vercel.app//https://aniwatch-api-woad-five.vercel.app',
         changeOrigin:true,
         secure:false,
       },
