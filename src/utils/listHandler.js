@@ -2,6 +2,7 @@ import axios from "axios";
 
 async function listFinder(listName, page){
     const res = await axios.get(`/anime/${listName}?page=${page}`)
+    // console.log(res.data);
     return res.data.animes.splice(0,5)
 }
 

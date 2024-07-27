@@ -6,9 +6,10 @@ export default defineConfig({
   server:{
     proxy:{
       '/anime':{
-        target:'https://cors-anywhere-d6p02hn89-sujals-projects-fcd11243.vercel.app//https://aniwatch-api-woad-five.vercel.app',
+        target:'https://aniwatch-api-woad-five.vercel.app',
         changeOrigin:true,
         secure:false,
+        // rewrite: path => path.replace(/^\/anime/, '')
       },
       'ajax':'https://hianime.to',
       '/watch':'https://hianime.to'
