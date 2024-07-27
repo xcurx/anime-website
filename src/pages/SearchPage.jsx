@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import {Card, Navbar, PageChange} from '../components'
 import { useDispatch } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
+import url from '../constant.js'
 
 function useQuery(){
   return new URLSearchParams(useLocation().search)
@@ -20,7 +21,7 @@ function SearchPage() {
 
   async function searchHandler(){
     setLoading(true)
-    axios.get(`/anime/search?q=${searchQuery}&page=${pageNo}`)
+    axios.get(`${url}/anime/search?q=${searchQuery}&page=${pageNo}`)
         .then((res) => setSearchResult(res.data))
         .then(() => 100/res.data.animes.length)
   }

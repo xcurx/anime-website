@@ -15,6 +15,7 @@ import '@vidstack/react/player/styles/default/layouts/audio.css';
 import '@vidstack/react/player/styles/plyr/theme.css';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
+import url from '../constant.js'
 
 function WatchPage() {
     const {animeId} = useParams()
@@ -25,7 +26,7 @@ function WatchPage() {
     const [select, setSelect] = useState('')
  
     async function episodeHandler(){
-        axios.get(`/anime/episodes/${animeId}`)
+        axios.get(`${url}/anime/episodes/${animeId}`)
             .then((res) => {
               setEpisodes(res.data.episodes)
               optionHandler(res.data.episodes)
@@ -35,7 +36,7 @@ function WatchPage() {
     }
 
     async function getEpisodeServer(episodeId){
-        axios.get(`/anime/servers?episodeId=${episodeId}`)
+        axios.get(`${url}/anime/servers?episodeId=${episodeId}`)
             .then((res) => setEpisodeInfo(res.data))
             .then(() => {
                 axios.get(`/anime/episode-srcs?id=${episodeId}&server=vidstream&category=sub`)

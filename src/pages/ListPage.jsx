@@ -5,6 +5,7 @@ import {Card, Navbar, PageChange} from '../components'
 import { useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
+import url from '../constant.js'
 
 function useQuery(){
   return new URLSearchParams(useLocation().search)
@@ -20,7 +21,7 @@ function ListPage() {
 
   async function listLoader(){
     setLoading(true)
-    axios.get(`/anime/${list}?page=${pageNo}`)
+    axios.get(`${url}/anime/${list}?page=${pageNo}`)
       .then((res) => setListData(res.data))
       // .then((res) => console.log(res.data.animes.length))  
   } 

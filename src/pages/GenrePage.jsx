@@ -4,6 +4,7 @@ import { useParams, useLocation, Link } from 'react-router-dom'
 import { Navbar, Card, PageChange } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
+import url from '../constant.js'
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)
@@ -18,7 +19,7 @@ function GenrePage() {
 
     async function apiHandler(){
         setLoading(true)
-        axios.get(`/anime/genre/${genre}?page=${pageNo}`)
+        axios.get(`${url}/anime/genre/${genre}?page=${pageNo}`)
             .then((res) => setData(res.data))
     }
 

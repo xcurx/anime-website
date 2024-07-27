@@ -5,6 +5,7 @@ import AnimeIntro from '../components/AnimeIntro'
 import {Navbar} from '../components'
 import { useDispatch } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
+import url from '../constant.js'
 
 function AnimePage() {
     const [aniInfo, setAniInfo] = useState(null)
@@ -12,7 +13,7 @@ function AnimePage() {
     const dispatch = useDispatch()
 
     async function animeInfo(){
-        axios.get(`anime/info?id=${animeId}`)
+        axios.get(`${url}/anime/info?id=${animeId}`)
             .then((res) => setAniInfo(res.data))
             .then(dispatch(handleProgress({progress:100})))
     }
