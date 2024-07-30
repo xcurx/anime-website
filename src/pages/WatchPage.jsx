@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import {Navbar} from '../components'
-import { MediaPlayer, MediaProvider, Track, Poster} from '@vidstack/react'
+import { MediaPlayer, MediaProvider, Track, Poster, QualitySlider} from '@vidstack/react'
 import {
     DefaultAudioLayout,
     defaultLayoutIcons,
@@ -15,7 +15,8 @@ import '@vidstack/react/player/styles/default/layouts/audio.css';
 import '@vidstack/react/player/styles/plyr/theme.css';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import url from '../constant.js'
+import url from '../constant.js';
+import srcApiHandler from '../utils/srcApiHandler.js'
 
 function WatchPage() {
     const {animeId} = useParams()
@@ -24,6 +25,8 @@ function WatchPage() {
     const [streamingLink, setStreamingLink] = useState(null)
     const [options, setOptions] = useState(0)
     const [select, setSelect] = useState('')
+    const [epLoading, setEpLoading] = useState(true)
+
  
     async function episodeHandler(){
         axios.get(`${url}/anime/episodes/${animeId}`)
@@ -35,13 +38,23 @@ function WatchPage() {
             })
     }
 
+    // async function serverLoader(){
+    //     axios.get(`${url}/anime/info?id=${animeId}`)
+    //         .then((res) => {
+    //             axios.get(`/gogoanime/${res.data.anime.info.name}?page=2`)
+    //             .then((res) => console.log(res.data))
+    //         })
+    // }
+
+    // test && console.log(test.anime.info.name);
+
     async function getEpisodeServer(episodeId){
         axios.get(`${url}/anime/servers?episodeId=${episodeId}`)
             .then((res) => setEpisodeInfo(res.data))
-            .then(() => {
-                axios.get(`/anime/episode-srcs?id=${episodeId}&server=vidstream&category=sub`)
-                    .then((res) => setStreamingLink(res.data))
-            })
+            // .then(() => {
+            //     axios.get(`${url}/anime/episode-srcs?id=${episodeId}&server=vidstream&category=sub`)
+            //         .then((res) => setStreamingLink(res.data))
+            // })
     }
 
     function optionHandler(episodes){
@@ -51,10 +64,14 @@ function WatchPage() {
 
     useEffect(() => {
         episodeHandler()
+        // serverLoader()
     }, [])
 
     useEffect(() => {
       Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
+      episodes && srcApiHandler(animeId,episodes[0].number)
+      .then((res) => {setStreamingLink(res)})
+      .then(() => setEpLoading(false))
     }, [episodes])
     
     // Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
@@ -67,7 +84,7 @@ function WatchPage() {
     // select && console.log(select);
     // episodes && console.log(episodes);
     // episodeInfo && console.log(episodeInfo);
-    // streamingLink && console.log(streamingLink.sources[0]);  
+    // streamingLink && console.log(streamingLink);  
     // console.log(options && (options>1?'1-100':`1-${episodes.length}`))
 
   return select && (
@@ -77,25 +94,26 @@ function WatchPage() {
             <div className='lg:w-3/4 w-full p-7'>
               {
                 streamingLink && (<MediaPlayer 
-                      src={streamingLink && streamingLink.sources[0].url}
+                      src={streamingLink && !epLoading && streamingLink[0].url}
                       viewType='video'
                       streamType='on-demand'
                       logLevel='warn'
                       crossOrigin
                       playsInline
                       title={episodes[episodeInfo.episodeNo-1].title}
+                      typeof=''
                       // poster='https://files.vidstack.io/sprite-fight/poster.webp'
                       // controls
                       
                     >
                       <MediaProvider>
                         <Poster className="vds-poster" />
-                        {/* {textTracks.map(track => ( */}
-                          <Track src={streamingLink.tracks[0].file}
-                          label='English'
+                        {/* {streamingLink.subtitles.map(track => (
+                          <Track key={track.lang} src={track.url}
+                          label={track.url}
                           kind='captions'
-                          lang='eng-US'/>
-                        {/* // ))} */}
+                          lang={track.lang}/>
+                        ))} */}
                       </MediaProvider>
                       <DefaultVideoLayout
                         // thumbnails={streamingLink.tracks[1].file}
@@ -147,7 +165,13 @@ function WatchPage() {
                               <div
                               key={episode.episodeId} 
                               className='bg-[#8415e5] rounded self-center justify-self-center w-11 h-11 lg:w-9 lg:h-9 xl:w-11 xl:h-11 flex justify-center items-center'
-                              onClick={() => {getEpisodeServer(episode.episodeId)}}
+                              onClick={() => {
+                                getEpisodeServer(episode.episodeId)
+                                setEpLoading(true)
+                                srcApiHandler(animeId,episode.number)
+                                .then((res) => setStreamingLink(res))
+                                .then(() => setEpLoading(false))
+                              }}
                               >
                               {episode.number}</div>
                             )
