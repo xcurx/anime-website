@@ -6,7 +6,7 @@ import LoadingBar from 'react-top-loading-bar'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
 import pnLogo from '../assets/pnLogo.png'
-import url from '../constant.js'
+import {url} from '../constant.js'
 
 function Navbar() {
   const [input, setInput] = useState('')

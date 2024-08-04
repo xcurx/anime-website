@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import {Navbar} from '../components'
-import { MediaPlayer, MediaProvider, Track, Poster, QualitySlider} from '@vidstack/react'
+import { MediaPlayer, MediaProvider, Track, Poster} from '@vidstack/react'
 import {
     DefaultAudioLayout,
     defaultLayoutIcons,
@@ -15,7 +15,7 @@ import '@vidstack/react/player/styles/default/layouts/audio.css';
 import '@vidstack/react/player/styles/plyr/theme.css';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import url from '../constant.js';
+import {url} from '../constant.js';
 import srcApiHandler from '../utils/srcApiHandler.js'
 
 function WatchPage() {
@@ -26,7 +26,6 @@ function WatchPage() {
     const [options, setOptions] = useState(0)
     const [select, setSelect] = useState('')
     const [epLoading, setEpLoading] = useState(true)
-
  
     async function episodeHandler(){
         axios.get(`${url}/anime/episodes/${animeId}`)
@@ -37,16 +36,6 @@ function WatchPage() {
               setSelect(res.data.episodes.length>100?'1-100':`1-${res.data.episodes.length}`)
             })
     }
-
-    // async function serverLoader(){
-    //     axios.get(`${url}/anime/info?id=${animeId}`)
-    //         .then((res) => {
-    //             axios.get(`/gogoanime/${res.data.anime.info.name}?page=2`)
-    //             .then((res) => console.log(res.data))
-    //         })
-    // }
-
-    // test && console.log(test.anime.info.name);
 
     async function getEpisodeServer(episodeId){
         axios.get(`${url}/anime/servers?episodeId=${episodeId}`)
@@ -64,13 +53,14 @@ function WatchPage() {
 
     useEffect(() => {
         episodeHandler()
-        // serverLoader()
     }, [])
 
     useEffect(() => {
       Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
       episodes && srcApiHandler(animeId,episodes[0].number)
-      .then((res) => {setStreamingLink(res)})
+      .then((res) => {
+        setStreamingLink(res.sources[5])
+      })
       .then(() => setEpLoading(false))
     }, [episodes])
     
@@ -85,6 +75,8 @@ function WatchPage() {
     // episodes && console.log(episodes);
     // episodeInfo && console.log(episodeInfo);
     // streamingLink && console.log(streamingLink);  
+    // currentQuality && console.log(currentQuality);
+    // playerRef && console.log(playerRef.current?.src);
     // console.log(options && (options>1?'1-100':`1-${episodes.length}`))
 
   return select && (
@@ -94,7 +86,9 @@ function WatchPage() {
             <div className='lg:w-3/4 w-full p-7'>
               {
                 streamingLink && (<MediaPlayer 
-                      src={streamingLink && !epLoading && streamingLink[0].url}
+                      src={!epLoading && streamingLink?.url}
+                      // onSourceChange={(e,r) => console.log('ok',e,r)}
+                      preload='metadata'
                       viewType='video'
                       streamType='on-demand'
                       logLevel='warn'
@@ -102,10 +96,12 @@ function WatchPage() {
                       playsInline
                       title={episodes[episodeInfo.episodeNo-1].title}
                       typeof=''
+                      className='relative'
                       // poster='https://files.vidstack.io/sprite-fight/poster.webp'
-                      // controls
-                      
-                    >
+                      // controls 
+                    >  
+                      {/* <QualitySubmenu options={streamingLink && streamingLink} current={currentQuality}/> */}
+
                       <MediaProvider>
                         <Poster className="vds-poster" />
                         {/* {streamingLink.subtitles.map(track => (
@@ -169,7 +165,9 @@ function WatchPage() {
                                 getEpisodeServer(episode.episodeId)
                                 setEpLoading(true)
                                 srcApiHandler(animeId,episode.number)
-                                .then((res) => setStreamingLink(res))
+                                .then((res) => {
+                                  setStreamingLink(res.sources[5])
+                                })
                                 .then(() => setEpLoading(false))
                               }}
                               >

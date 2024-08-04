@@ -5,7 +5,7 @@ import AnimeIntro from '../components/AnimeIntro'
 import {Navbar} from '../components'
 import { useDispatch } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
-import url from '../constant.js'
+import {url} from '../constant.js'
 
 function AnimePage() {
     const [aniInfo, setAniInfo] = useState(null)

@@ -4,7 +4,7 @@ import { useParams, useLocation, Link } from 'react-router-dom'
 import { Navbar, Card, PageChange } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
-import url from '../constant.js'
+import {url} from '../constant.js'
 
 function useQuery(){
     return new URLSearchParams(useLocation().search)

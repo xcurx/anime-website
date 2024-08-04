@@ -3,7 +3,7 @@ import axios from 'axios'
 import { AnimeList, Banner, Footer, List, Navbar } from './components'
 import { useDispatch } from 'react-redux'
 import { handleProgress } from './store/loaderSlice'
-import url from './constant.js'
+import {url} from './constant.js'
 
 function App() {
     const [home, setHome] = useState({})
