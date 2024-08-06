@@ -7,4 +7,5 @@ async function findTotalEpisodes(id){
     return res.data.anime.info.stats.episodes
 }
 
+
 export default findTotalEpisodes

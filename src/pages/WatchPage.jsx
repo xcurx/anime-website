@@ -16,16 +16,19 @@ import '@vidstack/react/player/styles/plyr/theme.css';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import {url} from '../constant.js';
-import srcApiHandler from '../utils/srcApiHandler.js'
+import {srcApiHandler, imdbInfo} from '../utils/srcApiHandler.js'
 
 function WatchPage() {
     const {animeId} = useParams()
     const [episodes, setEpisodes] = useState(null)
     const [episodeInfo, setEpisodeInfo] = useState(null)
     const [streamingLink, setStreamingLink] = useState(null)
+    const [gogoLink, setGogoLink] = useState(null)
+    const [aniwatchLink, setAniwatchLink] = useState(null)
     const [options, setOptions] = useState(0)
     const [select, setSelect] = useState('')
     const [epLoading, setEpLoading] = useState(true)
+    const [imbdData, setImbdData] = useState(null)
  
     async function episodeHandler(){
         axios.get(`${url}/anime/episodes/${animeId}`)
@@ -40,10 +43,10 @@ function WatchPage() {
     async function getEpisodeServer(episodeId){
         axios.get(`${url}/anime/servers?episodeId=${episodeId}`)
             .then((res) => setEpisodeInfo(res.data))
-            // .then(() => {
-            //     axios.get(`${url}/anime/episode-srcs?id=${episodeId}&server=vidstream&category=sub`)
-            //         .then((res) => setStreamingLink(res.data))
-            // })
+            .then(() => {
+                axios.get(`${url}/anime/episode-srcs?id=${episodeId}&server=hd-1&category=sub`)
+                    .then((res) => {setAniwatchLink(res.data); setStreamingLink(res.data)}) 
+            })
     }
 
     function optionHandler(episodes){
@@ -53,14 +56,21 @@ function WatchPage() {
 
     useEffect(() => {
         episodeHandler()
+        imdbInfo(animeId)
+          .then((res) => setImbdData(res))
     }, [])
 
     useEffect(() => {
       Array.isArray(episodes) && getEpisodeServer(episodes[0].episodeId)
-      episodes && srcApiHandler(animeId,episodes[0].number)
-      .then((res) => {
-        setStreamingLink(res.sources[5])
-      })
+      // episodes && srcApiHandler(animeId,episodes[0].number)
+      // .then((res) => {
+      //   setGogoLink(res?.sources[5])
+      //   setStreamingLink(() => {
+      //     if(res == undefined){
+      //       return aniwatchLink
+      //     }
+      //   })
+      // })
       .then(() => setEpLoading(false))
     }, [episodes])
     
@@ -72,12 +82,15 @@ function WatchPage() {
     //   return value
     //   }))
     // select && console.log(select);
-    // episodes && console.log(episodes);
-    // episodeInfo && console.log(episodeInfo);
-    // streamingLink && console.log(streamingLink);  
+    // episodes && console.log(episodes[0]);
+    // aniwatchLink && console.log(aniwatchLink);
+    // episodeInfo && console.log('einfo',episodeInfo);
+    // streamingLink && console.log(streamingLink.sources[0].url);  
     // currentQuality && console.log(currentQuality);
     // playerRef && console.log(playerRef.current?.src);
     // console.log(options && (options>1?'1-100':`1-${episodes.length}`))
+    imbdData && console.log(imbdData);
+    
 
   return select && (
     <>
@@ -85,8 +98,9 @@ function WatchPage() {
         <div className='lg:flex lg:h-[45vw]'>
             <div className='lg:w-3/4 w-full p-7'>
               {
-                streamingLink && (<MediaPlayer 
-                      src={!epLoading && streamingLink?.url}
+                streamingLink && (
+                    <MediaPlayer 
+                      src={!epLoading? streamingLink?.sources[0].url : ''}
                       // onSourceChange={(e,r) => console.log('ok',e,r)}
                       preload='metadata'
                       viewType='video'
@@ -97,11 +111,7 @@ function WatchPage() {
                       title={episodes[episodeInfo.episodeNo-1].title}
                       typeof=''
                       className='relative'
-                      // poster='https://files.vidstack.io/sprite-fight/poster.webp'
-                      // controls 
                     >  
-                      {/* <QualitySubmenu options={streamingLink && streamingLink} current={currentQuality}/> */}
-
                       <MediaProvider>
                         <Poster className="vds-poster" />
                         {/* {streamingLink.subtitles.map(track => (
@@ -120,8 +130,8 @@ function WatchPage() {
               }  
             </div>
             {/* bg-[#D9232E] */}
-            <div className='lg:w-1/4 w-full bg-[#282828] text-white lg:h-full flex flex-col'>
-                <div className='w-full p-3 flex justify-between'> 
+            <div className='lg:w-1/4 w-full bg-[#04141e] text-white h-[calc(4rem*12+3rem)] lg:h-full flex flex-col'>
+                <div className='w-full p-3 flex justify-between bg-[#071b28]'> 
                     <span className='xl:text-lg text-lg lg:text-sm p-2'>List of all episodes:</span>
                     <Select 
                      defaultValue={select} 
@@ -150,9 +160,45 @@ function WatchPage() {
                       }
                     </Select>
                 </div>
-                <div className='grid lg:grid-cols-5 md:grid-cols-12 sm:grid-cols-10 grid-cols-5 gap-3 p-6 scrollbar-thin overflow-y-scroll flex-1'>
+                <div className='p-5 scrollbar-thin overflow-y-scroll flex-1'>
                     {
-                        episodes && episodes.map((episode, index) => {
+                        imbdData?.seasons && imbdData.seasons.length>0? (
+                            imbdData.seasons.map((season) => {
+                              return season.episodes?.map((e,index) => {
+                                if(!select) return
+                                const value = select
+                                const seletEnds = [...value.split('-')]
+                                if(e.episode >= seletEnds[0] && e.episode <= seletEnds[1]){
+                                  return (
+                                    <div
+                                    key={e.id} 
+                                    className={`border ${episodeInfo.episodeNo==e.episode?'border-[#8415e5] bg-[#030f16]':'border-gray-700'} mt-2 h-16 rounded self-center justify-self-center flex justify-center items-center`}
+                                    onClick={() => {
+                                      setEpLoading(true)
+                                      getEpisodeServer(episodes[e.episode-1].episodeId)
+                                      .then(setEpLoading(false))
+                                    }}
+                                    >
+      
+                                      <div 
+                                       className={`relative h-full font-bold w-1/5 text-3xl flex justify-center items-center ${episodeInfo.episodeNo==e.episode?'text-[#8415e5]':'text-gray-800'}`}
+                                       style={{
+                                          backgroundImage: `url(${e.img? e.img.hd:''})`,
+                                          backgroundSize: 'cover'
+                                       }}
+                                      >
+                                      {e.episode}
+                                      </div>
+                                      <div className='pl-2 w-4/5 line-clamp-2'>{e.title}</div>
+                                    
+                                    </div>
+                                  )
+                                }
+                              })
+                            })                            
+                        ):
+
+                        (episodes && episodeInfo && episodes.map((episode, index) => {
                           if(!select) return
                           const value = select
                           const seletEnds = [...value.split('-')]
@@ -160,21 +206,25 @@ function WatchPage() {
                             return (
                               <div
                               key={episode.episodeId} 
-                              className='bg-[#8415e5] rounded self-center justify-self-center w-11 h-11 lg:w-9 lg:h-9 xl:w-11 xl:h-11 flex justify-center items-center'
+                              className={`border ${episodeInfo.episodeNo==index+1?'border-[#8415e5] bg-[#030f16]':'border-gray-700'} mt-2 h-16 rounded self-center justify-self-center flex justify-center items-center`}
                               onClick={() => {
-                                getEpisodeServer(episode.episodeId)
                                 setEpLoading(true)
-                                srcApiHandler(animeId,episode.number)
-                                .then((res) => {
-                                  setStreamingLink(res.sources[5])
-                                })
-                                .then(() => setEpLoading(false))
+                                getEpisodeServer(episode.episodeId)
+                                .then(setEpLoading(false))
                               }}
                               >
-                              {episode.number}</div>
+
+                                <div 
+                                 className={`w-1/5 text-3xl font-bold flex justify-center items-center ${episodeInfo.episodeNo==index+1?'text-[#8415e5]':'text-gray-700'}`}
+                                >
+                                {episode.number}
+                                </div>
+                                <div className='w-4/5 line-clamp-2'>{episode.title}</div>
+                              
+                              </div>
                             )
                           }
-                        })
+                        }))
                     }
                 </div>
             </div>

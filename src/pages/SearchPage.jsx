@@ -23,7 +23,6 @@ function SearchPage() {
     setLoading(true)
     axios.get(`${url}/anime/search?q=${searchQuery}&page=${pageNo}`)
         .then((res) => setSearchResult(res.data))
-        .then(() => 100/res.data.animes.length)
   }
 
   useEffect(() => {
