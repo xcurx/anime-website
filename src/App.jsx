@@ -25,14 +25,14 @@ function App() {
       apiHandler()
     }, [])
     
-  return loading? (<div className='text-6xl'>Loading</div>) : home && (
+  return loading? (<div className='text-4xl text-[#8800ff] h-screen flex justify-center items-center'>Loading</div>) : home && (
     <div
      onLoad={() => dispatch(handleProgress({progress:100}))} 
     >
         <Navbar/>
         <Banner/>
         <AnimeList info={home}/>
-        <Footer/>
+        <Footer info={home}/>
     </div>
   )
 }

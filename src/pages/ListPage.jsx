@@ -35,7 +35,7 @@ function ListPage() {
   }, [pageNo])
   
    
-  return loading? (<div className='text-white text-9xl'>loading</div>): listData&&(
+  return !listData? (<div className='text-4xl text-[#8800ff] h-screen flex justify-center items-center'>Loading</div>) : (
     <div className=''
     onLoad={() => {
       // dispatch(handleProgress({progress:100}))
@@ -63,10 +63,10 @@ function ListPage() {
                   />
                 </div>
             </div>
-            <div className='lg:w-1/4 w-full h-[800px] bg-[#2c2c2c] text-white grid grid-cols-4 md:grid-cols-2 my-3 p-3'>
+            <div className='lg:w-1/4 w-full h-[800px] place-content-evenly bg-[#2c2c2c] text-white grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 md:grid-cols-4 my-3 p-3'>
                 {
                     listData && listData.genres.map((genre) => (
-                      <div key={genre} className='py-2 bg-[] hover:text-[#8800ff] px-3 rounded-xl font-bold mr-auto cursor-pointer truncate'>
+                      <div key={genre} className='py-2 bg-[] m-auto hover:text-[#8800ff] px-3 rounded-xl font-bold mr-auto cursor-pointer truncate'>
                          <Link to={`/genre/${genre.split(' ').map((e) => e[0].toLowerCase()+e.slice(1)).join('-')}?page=1`}>{genre}</Link> 
                       </div>
                     ))

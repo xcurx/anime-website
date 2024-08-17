@@ -96,7 +96,7 @@ function Navbar() {
               {searchResult && (<Link to={`/search?query=${input}&page=1`} className='bg-[#8800ff] w-full flex justify-center text-lg '>View all results</Link>)}
             </div>
           </div>
-          <button className='text-[#8800ff] border-[#8800ff] border rounded px-4 py-1'>Login</button>
+          {/* <button className='text-[#8800ff] border-[#8800ff] border rounded px-4 py-1'>Login</button> */}
       </div>
     </div>
   )

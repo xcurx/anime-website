@@ -29,7 +29,7 @@ function WatchPage() {
     const [select, setSelect] = useState('')
     const [epLoading, setEpLoading] = useState(true)
     const [imbdData, setImbdData] = useState(null)
- 
+
     async function episodeHandler(){
         axios.get(`${url}/anime/episodes/${animeId}`)
             .then((res) => {
@@ -85,14 +85,14 @@ function WatchPage() {
     // episodes && console.log(episodes[0]);
     // aniwatchLink && console.log(aniwatchLink);
     // episodeInfo && console.log('einfo',episodeInfo);
-    // streamingLink && console.log(streamingLink.sources[0].url);  
+    // streamingLink && console.log(streamingLink);  
     // currentQuality && console.log(currentQuality);
     // playerRef && console.log(playerRef.current?.src);
     // console.log(options && (options>1?'1-100':`1-${episodes.length}`))
-    imbdData && console.log(imbdData);
+    // imbdData && console.log(imbdData);
     
 
-  return select && (
+  return !select? (<div className='text-4xl text-[#8800ff] h-screen flex justify-center items-center'>Loading</div>) : (
     <>
         <Navbar/>
         <div className='lg:flex lg:h-[45vw]'>
@@ -114,12 +114,12 @@ function WatchPage() {
                     >  
                       <MediaProvider>
                         <Poster className="vds-poster" />
-                        {/* {streamingLink.subtitles.map(track => (
-                          <Track key={track.lang} src={track.url}
-                          label={track.url}
+
+                          <Track key={streamingLink.tracks[0].label} src={streamingLink.tracks[0].file}
+                          label={streamingLink.tracks[0].label}
                           kind='captions'
-                          lang={track.lang}/>
-                        ))} */}
+                          />
+                        
                       </MediaProvider>
                       <DefaultVideoLayout
                         // thumbnails={streamingLink.tracks[1].file}

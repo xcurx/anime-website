@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import {Card, Navbar, PageChange} from '../components'
 import { useDispatch } from 'react-redux'
 import { handleProgress } from '../store/loaderSlice'
@@ -24,6 +24,8 @@ function SearchPage() {
     axios.get(`${url}/anime/search?q=${searchQuery}&page=${pageNo}`)
         .then((res) => setSearchResult(res.data))
   }
+
+  // console.log(searchResult);
 
   useEffect(() => {
     searchHandler()

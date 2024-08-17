@@ -25,7 +25,7 @@ function AnimePage() {
       animeInfo()
     }, [animeId])
     
-  return aniInfo && (
+  return !aniInfo? (<div className='text-4xl text-[#8800ff] h-screen flex justify-center items-center'>Loading</div>) : (
     <>
     <Navbar/>
     <AnimeIntro aniInfo={aniInfo}/>
